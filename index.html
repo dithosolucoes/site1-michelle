@@ -1,610 +1,382 @@
-// app/page.tsx
-"use client";
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Michelle Fonseca — Pele Blindada & Colorimetria</title>
+<meta name="description" content="Maquiadora em Divinópolis — Especialista em Pele Blindada & Colorimetria. Noivas, Maquiagem Social, Penteados e Cursos." />
+<meta name="theme-color" content="#7F2436" />
+<link rel="preload" as="image" href="michelle/hero.jpg" />
+<style>
+  /* ===== TOKENS ===== */
+  :root{
+    --nude:#EAD9CB; --gold:#C8A562; --wine:#7F2436; --graph:#2F2F2F; --white:#fff;
+    --rad:16px; --rad-lg:24px; --shadow:0 10px 30px rgba(0,0,0,.08);
+    --max: 1120px;
+  }
+  *{box-sizing:border-box} html{scroll-behavior:smooth}
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;color:var(--graph);background:#fff;line-height:1.5}
+  img{max-width:100%;display:block}
+  a{color:inherit}
+  .wrap{max-width:var(--max);margin:auto;padding:0 20px}
+  .section{padding:64px 0}
+  .title{font-weight:800;letter-spacing:-.02em}
+  .h1{font-size:clamp(32px,4vw,56px)}
+  .h2{font-size:clamp(28px,3vw,40px)}
+  .sub{color:#555}
+  .btn{display:inline-flex;align-items:center;justify-content:center;padding:14px 22px;border-radius:14px;color:#fff;background:var(--wine);font-weight:700;text-decoration:none;box-shadow:var(--shadow)}
+  .btn:is(:hover,:focus){filter:brightness(1.05)}
+  .btn-sm{padding:10px 16px;font-weight:600}
+  .grid{display:grid;gap:20px}
+  .g-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .g-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .g-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+  @media (max-width:900px){.g-4{grid-template-columns:repeat(2,1fr)}.g-3{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:640px){.g-3,.g-4,.g-2{grid-template-columns:1fr}}
+  .card{background:#fff;border:1px solid #ececec;border-radius:18px;box-shadow:var(--shadow);overflow:hidden}
+  .ratio{position:relative;overflow:hidden}
+  .r-4x3{padding-top:75%}.r-4x5{padding-top:125%}.r-1x1{padding-top:100%}
+  .ratio > img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+  .card:hover .ratio>img{transform:scale(1.03)}
+  .pill{display:inline-block;background:#fff8;border:1px solid #eee;border-radius:999px;padding:8px 12px;backdrop-filter:saturate(1.2) blur(6px)}
+  .muted{color:#6b6b6b}
+  .hero{background:linear-gradient(90deg,var(--nude),#F3E9DF)}
+  .footer{color:#eee}
+  .divider{height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.5;margin:14px 0 6px}
+  .tag{color:var(--wine);font-weight:800}
+  nav.stick{position:sticky;top:0;z-index:50;background:#fff8;backdrop-filter:blur(10px);border-bottom:1px solid #eee}
+  nav .in{display:flex;gap:14px;align-items:center;justify-content:space-between;padding:10px 0}
+  nav a{padding:8px 10px;border-radius:10px}
+  nav a:hover{background:#0000000a}
+  /* Lightbox */
+  .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.84);display:none;align-items:center;justify-content:center}
+  .lightbox.open{display:flex}
+  .lightbox img{max-width:min(90vw,1100px);max-height:85vh;border-radius:12px;box-shadow:0 15px 60px rgba(0,0,0,.5)}
+  .x{position:absolute;top:18px;right:18px;background:#ffffff20;border:1px solid #ffffff40;color:#fff;border-radius:10px;padding:8px 10px;cursor:pointer}
+  /* A11y helpers */
+  :focus-visible{outline:2px solid var(--wine);outline-offset:2px}
+</style>
+</head>
+<body>
 
-import Image from "next/image";
-import Link from "next/link";
-import { motion } from "framer-motion";
+<!-- NAV -->
+<nav class="stick">
+  <div class="wrap in">
+    <strong style="letter-spacing:-.02em">Michelle Fonseca</strong>
+    <div style="display:flex;gap:6px;flex-wrap:wrap">
+      <a href="#servicos">Serviços</a>
+      <a href="#noivas">Noivas</a>
+      <a href="#maquiagem">Maquiagem</a>
+      <a href="#penteados">Penteados</a>
+      <a href="#cursos">Cursos</a>
+      <a href="#loja">Loja</a>
+      <a href="https://wa.me/5537999286198?text=Oi%20Michelle!%20Quero%20um%20hor%C3%A1rio%20%2F%20mais%20informa%C3%A7%C3%B5es%20%F0%9F%99%8C" class="btn btn-sm" aria-label="Falar com Michelle no WhatsApp">WhatsApp</a>
+    </div>
+  </div>
+</nav>
 
-// ====== CONFIG BÁSICA ======
-const WAPP_NUMBER = "+553799999999"; // <-- troque aqui
-const WAPP_MSG = encodeURIComponent("Oi Michelle! Quero um horário/mais informações 🙌");
-const WAPP_URL = `https://wa.me/${WAPP_NUMBER}?text=${WAPP_MSG}`;
+<!-- 01 HERO -->
+<header id="inicio" class="section hero">
+  <div class="wrap grid g-2" style="align-items:center">
+    <div class="card" style="border:none;box-shadow:var(--shadow)">
+      <div class="ratio r-4x5"><img src="michelle/hero.jpg" alt="Michelle Fonseca — Especialista em Pele Blindada" /></div>
+    </div>
+    <div>
+      <h1 class="title h1">Michelle Fonseca</h1>
+      <p class="h2" style="margin:.3em 0 0"><span class="tag">Pele Blindada</span> & <span class="tag">Colorimetria</span></p>
+      <p class="sub" style="margin:14px 0 20px">Transformando beleza em confiança — todos os dias.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
+        <a class="btn" href="https://wa.me/5537999286198?text=Oi%20Michelle!%20Quero%20um%20hor%C3%A1rio%20%2F%20mais%20informa%C3%A7%C3%B5es%20%F0%9F%99%8C">Fale comigo no WhatsApp</a>
+        <a class="pill" href="#servicos">Ver serviços</a>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px">
+        <span class="pill muted">+4 anos</span>
+        <span class="pill muted">Divinópolis — MG</span>
+        <span class="pill muted">Cursos Pro & Automaquiagem</span>
+      </div>
+    </div>
+  </div>
+</header>
 
-const COLORS = {
-  nude: "#EAD9CB",
-  gold: "#C8A562",
-  wine: "#7F2436",
-  graphite: "#2F2F2F",
-  white: "#FFFFFF",
-};
+<!-- 02 PROVAS RÁPIDAS -->
+<section id="autoridade" class="section">
+  <div class="wrap">
+    <h2 class="title h2" style="text-align:center">Beleza que dura <span class="tag">a festa inteira</span></h2>
+    <p class="sub" style="text-align:center;margin-top:6px">Durabilidade de pele blindada e colorimetria para realçar tons de pele.</p>
+    <div class="grid g-4" style="margin-top:24px">
+      <div class="card" style="padding:28px;text-align:center">
+        <div class="title" style="font-size:28px;color:var(--wine)">+860</div>
+        <div class="muted">Atendimentos & makes</div>
+      </div>
+      <div class="card" style="padding:28px;text-align:center">
+        <div class="title" style="font-size:28px;color:var(--wine)">+200</div>
+        <div class="muted">Alunas formadas</div>
+      </div>
+      <div class="card" style="padding:28px;text-align:center">
+        <div class="title" style="font-size:28px;color:var(--wine)">4.9/5</div>
+        <div class="muted">Avaliações de clientes</div>
+      </div>
+      <div class="card" style="padding:28px;text-align:center">
+        <div class="title" style="font-size:28px;color:var(--wine)">Prova d’água</div>
+        <div class="muted">Fixação & resistência</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-function ButtonWhatsApp({
-  children = "Fale comigo no WhatsApp",
-  size = "lg",
-  className = "",
-}: {
-  children?: React.ReactNode;
-  size?: "sm" | "lg";
-  className?: string;
-}) {
-  const sizes =
-    size === "lg"
-      ? "px-6 py-4 text-base md:text-lg"
-      : "px-4 py-2 text-sm md:text-base";
-  return (
-    <Link
-      href={WAPP_URL}
-      aria-label="Falar com Michelle no WhatsApp"
-      className={`inline-flex items-center justify-center rounded-xl font-semibold text-white shadow-sm transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2`}
-      style={{ backgroundColor: COLORS.wine }}
-    >
-      <span className={`${sizes} ${className}`}>{children}</span>
-    </Link>
-  );
-}
+<!-- 03 SERVIÇOS -->
+<section id="servicos" class="section" style="background:#FAF6F1">
+  <div class="wrap">
+    <h2 class="title h2" style="text-align:center">Serviços <span class="tag">& Especialidades</span></h2>
+    <p class="sub" style="text-align:center">Noivas, formandas, debutantes, maquiagem social e penteados.</p>
+    <div class="grid g-3" style="margin-top:22px">
+      <!-- 6 cards -->
+      <article class="card">
+        <div class="ratio r-4x3"><img src="michelle/noiva-3.jpg" alt="Noivas — experiência completa" /></div>
+        <div style="padding:16px 16px 18px"><strong>Noivas</strong><p class="muted">Experiência completa para o grande dia.</p></div>
+      </article>
+      <article class="card">
+        <div class="ratio r-4x3"><img src="michelle/make-3.jpg" alt="Maquiagem social" /></div>
+        <div style="padding:16px 16px 18px"><strong>Maquiagem Social</strong><p class="muted">Do clássico ao glow atual.</p></div>
+      </article>
+      <article class="card">
+        <div class="ratio r-4x3"><img src="michelle/penteado-2.jpg" alt="Penteados" /></div>
+        <div style="padding:16px 16px 18px"><strong>Penteados</strong><p class="muted">Românticos, presos e semi-presos.</p></div>
+      </article>
+      <article class="card">
+        <div class="ratio r-4x3"><img src="michelle/make-8.jpg" alt="Formandas & Debutantes" /></div>
+        <div style="padding:16px 16px 18px"><strong>Formandas & Debutantes</strong><p class="muted">Brilho na noite especial.</p></div>
+      </article>
+      <article class="card">
+        <div class="ratio r-4x3"><img src="michelle/noiva-5.jpg" alt="Prova de noiva" /></div>
+        <div style="padding:16px 16px 18px"><strong>Prova de Noiva</strong><p class="muted">Teste técnico + ajuste fino.</p></div>
+      </article>
+      <article class="card">
+        <div class="ratio r-4x3"><img src="michelle/make-1.jpg" alt="Estúdio próprio" /></div>
+        <div style="padding:16px 16px 18px"><strong>Atendimento em Estúdio</strong><p class="muted">Ambiente confortável e iluminado.</p></div>
+      </article>
+    </div>
+    <div style="text-align:center;margin-top:18px">
+      <a class="btn" href="https://wa.me/5537999286198?text=Oi%20Michelle!%20Quero%20consultar%20servi%C3%A7os%20e%20valores%20%F0%9F%92%8B">Falar no WhatsApp</a>
+    </div>
+  </div>
+</section>
 
-function Section({
-  id,
-  children,
-  className = "",
-  bg = "transparent",
-  ariaLabel,
-}: {
-  id: string;
-  children: React.ReactNode;
-  className?: string;
-  bg?: string;
-  ariaLabel?: string;
-}) {
-  return (
-    <section
-      id={id}
-      aria-label={ariaLabel || id}
-      className={`py-14 md:py-20 ${className}`}
-      style={{ background: bg }}
-    >
-      <div className="mx-auto w-full max-w-6xl px-5">{children}</div>
-    </section>
-  );
-}
+<!-- 04 GALERIA NOIVAS -->
+<section id="noivas" class="section">
+  <div class="wrap">
+    <h2 class="title h2">Noivas <span class="tag">— Portfólio</span></h2>
+    <div class="grid g-3" id="g-noivas">
+      <div class="ratio r-4x5 card"><img src="michelle/noiva-1.jpg" alt="Noiva 1" /></div>
+      <div class="ratio r-4x5 card"><img src="michelle/noiva-2.jpg" alt="Noiva 2" /></div>
+      <div class="ratio r-4x5 card"><img src="michelle/noiva-3.jpg" alt="Noiva 3" /></div>
+      <div class="ratio r-4x5 card"><img src="michelle/noiva-4.jpg" alt="Noiva 4" /></div>
+      <div class="ratio r-4x5 card"><img src="michelle/noiva-5.jpg" alt="Noiva 5" /></div>
+    </div>
+  </div>
+</section>
 
-function SectionTitle({
-  k1,
-  k2,
-  sub,
-  align = "center",
-}: {
-  k1: string;
-  k2?: string;
-  sub?: string;
-  align?: "left" | "center";
-}) {
-  return (
-    <header
-      className={`mb-10 md:mb-14 ${align === "center" ? "text-center" : ""}`}
-    >
-      <h2
-        className={`text-3xl md:text-4xl font-extrabold tracking-tight text-[${COLORS.graphite}]`}
-        style={{ color: COLORS.graphite }}
-      >
-        {k1} {k2 && <span style={{ color: COLORS.wine }}>{k2}</span>}
-      </h2>
-      {sub && (
-        <p
-          className="mt-3 text-base md:text-lg text-gray-600"
-          style={{ color: "#565656" }}
-        >
-          {sub}
-        </p>
-      )}
-    </header>
-  );
-}
+<!-- 05 GALERIA MAQUIAGEM SOCIAL -->
+<section id="maquiagem" class="section" style="background:#FAF6F1">
+  <div class="wrap">
+    <h2 class="title h2">Maquiagem Social <span class="tag">— Portfólio</span></h2>
+    <div class="grid g-4" id="g-make">
+      <div class="ratio r-1x1 card"><img src="michelle/make-1.jpg" alt="Maquiagem 1"></div>
+      <div class="ratio r-1x1 card"><img src="michelle/make-2.jpg" alt="Maquiagem 2"></div>
+      <div class="ratio r-1x1 card"><img src="michelle/make-3.jpg" alt="Maquiagem 3"></div>
+      <div class="ratio r-1x1 card"><img src="michelle/make-4.jpg" alt="Maquiagem 4"></div>
+      <div class="ratio r-1x1 card"><img src="michelle/make-5.jpg" alt="Maquiagem 5"></div>
+      <div class="ratio r-1x1 card"><img src="michelle/make-6.jpg" alt="Maquiagem 6"></div>
+      <div class="ratio r-1x1 card"><img src="michelle/make-7.jpg" alt="Maquiagem 7"></div>
+      <div class="ratio r-1x1 card"><img src="michelle/make-8.jpg" alt="Maquiagem 8"></div>
+    </div>
+  </div>
+</section>
 
-// ====== VARIAÇÕES DE MOTION ======
-const fadeUp = {
-  initial: { opacity: 0, y: 16 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.45 } },
-};
+<!-- 06 GALERIA PENTEADOS -->
+<section id="penteados" class="section">
+  <div class="wrap">
+    <h2 class="title h2">Penteados <span class="tag">— Portfólio</span></h2>
+    <div class="grid g-4" id="g-hair">
+      <div class="ratio r-4x5 card"><img src="michelle/penteado-1.jpg" alt="Penteado 1"></div>
+      <div class="ratio r-4x5 card"><img src="michelle/penteado-2.jpg" alt="Penteado 2"></div>
+      <div class="ratio r-4x5 card"><img src="michelle/penteado-3.jpg" alt="Penteado 3"></div>
+      <div class="ratio r-4x5 card"><img src="michelle/penteado-4.jpg" alt="Penteado 4"></div>
+      <div class="ratio r-4x5 card"><img src="michelle/penteado-5.jpg" alt="Penteado 5"></div>
+      <div class="ratio r-4x5 card"><img src="michelle/penteado-6.jpg" alt="Penteado 6"></div>
+      <div class="ratio r-4x5 card"><img src="michelle/penteado-7.jpg" alt="Penteado 7"></div>
+      <div class="ratio r-4x5 card"><img src="michelle/penteado-8.jpg" alt="Penteado 8"></div>
+    </div>
+  </div>
+</section>
 
-// ====== 12 SEÇÕES ======
-export default function Page() {
-  const noivas = [1, 2, 3, 4, 5].map((i) => `/michelle/noiva-${i}.jpg`);
-  const makes = [1, 2, 3, 4, 5, 6, 7, 8].map((i) => `/michelle/make-${i}.jpg`);
-  const hair = [1, 2, 3, 4, 5, 6, 7, 8].map(
-    (i) => `/michelle/penteado-${i}.jpg`
-  );
-  const produtos = [1, 2, 3].map((i) => `/michelle/produto-${i}.jpg`);
-
-  return (
-    <main className="min-h-screen" style={{ backgroundColor: COLORS.white }}>
-      {/* 01 — HERO */}
-      <Section id="inicio" bg={`linear-gradient(90deg, ${COLORS.nude}, #F3E9DF)`}>
-        <div className="grid items-center gap-8 md:grid-cols-2">
-          <motion.div {...fadeUp}>
-            <Image
-              src="/michelle/hero.jpg"
-              width={900}
-              height={900}
-              alt="Michelle Fonseca - Especialista em Pele Blindada"
-              className="w-full rounded-3xl object-cover shadow-lg"
-              priority
-            />
-          </motion.div>
-
-          <motion.div {...fadeUp} transition={{ delay: 0.1 }}>
-            <h1
-              className="text-4xl md:text-6xl font-extrabold leading-tight"
-              style={{ color: COLORS.graphite }}
-            >
-              Michelle Fonseca
-            </h1>
-            <p
-              className="mt-4 text-xl md:text-2xl font-medium"
-              style={{ color: COLORS.graphite }}
-            >
-              Especialista em <span style={{ color: COLORS.wine }}>Pele Blindada</span> &{" "}
-              <span style={{ color: COLORS.wine }}>Colorimetria</span>
-            </p>
-            <p className="mt-3 text-base md:text-lg text-gray-700">
-              Transformando beleza em confiança — todos os dias.
-            </p>
-
-            <div className="mt-6 flex flex-wrap items-center gap-4">
-              <ButtonWhatsApp />
-              <a
-                href="#servicos"
-                className="text-sm md:text-base underline underline-offset-4"
-                style={{ color: COLORS.graphite }}
-              >
-                Ver serviços
-              </a>
-            </div>
-
-            {/* badges rápidos */}
-            <ul className="mt-6 flex flex-wrap gap-4 text-sm text-gray-700">
-              <li className="rounded-full bg-white/70 px-3 py-2 shadow-sm backdrop-blur">
-                +4 anos de experiência
-              </li>
-              <li className="rounded-full bg-white/70 px-3 py-2 shadow-sm backdrop-blur">
-                Divinópolis — MG
-              </li>
-              <li className="rounded-full bg-white/70 px-3 py-2 shadow-sm backdrop-blur">
-                Cursos Profissionais & Automaquiagem
-              </li>
-            </ul>
-          </motion.div>
+<!-- 07 CURSOS -->
+<section id="cursos" class="section" style="background:linear-gradient(90deg,#fff,var(--nude))">
+  <div class="wrap">
+    <h2 class="title h2">Cursos Profissionais <span class="tag">& Automaquiagem</span></h2>
+    <div class="grid g-2" style="margin-top:16px">
+      <article class="card" style="display:grid;grid-template-columns:1.1fr 1fr">
+        <div class="ratio r-4x3"><img src="michelle/make-5.jpg" alt="Curso Profissional"></div>
+        <div style="padding:18px">
+          <strong style="font-size:20px">Curso Profissional</strong>
+          <ul class="muted" style="margin:10px 0 0 18px">
+            <li>Pele blindada: preparação, selagem e durabilidade</li>
+            <li>Colorimetria: leitura de subtom e correções</li>
+            <li>Olhos: do esfumado clássico ao fox-eye</li>
+            <li>Portfólio em aula + fotografia</li>
+          </ul>
+          <div style="margin-top:14px"><a class="btn btn-sm" href="https://wa.me/5537999286198?text=Quero%20detalhes%20do%20Curso%20Profissional%20%F0%9F%92%8B">Quero detalhes no WhatsApp</a></div>
         </div>
-      </Section>
-
-      {/* 02 — AUTORIDADE / PROVAS RÁPIDAS */}
-      <Section id="autoridade">
-        <SectionTitle
-          k1="Beleza que dura"
-          k2="a festa inteira"
-          sub="Técnica de alta durabilidade (pele blindada) e colorimetria para realçar tons de pele."
-        />
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-          {[
-            ["+860", "Atendimentos & makes"],
-            ["+200", "Alunas formadas"],
-            ["4.9/5", "Avaliações de clientes"],
-            ["Prova d’água", "Fixação & resistência"],
-          ].map(([k, v]) => (
-            <motion.div
-              key={k}
-              {...fadeUp}
-              className="rounded-2xl border border-gray-200 bg-white p-6 text-center shadow-sm"
-            >
-              <div
-                className="text-3xl font-extrabold"
-                style={{ color: COLORS.wine }}
-              >
-                {k}
-              </div>
-              <div className="mt-1 text-sm text-gray-600">{v}</div>
-            </motion.div>
-          ))}
+      </article>
+      <article class="card" style="display:grid;grid-template-columns:1.1fr 1fr">
+        <div class="ratio r-4x3"><img src="michelle/make-2.jpg" alt="Curso de Automaquiagem"></div>
+        <div style="padding:18px">
+          <strong style="font-size:20px">Curso de Automaquiagem</strong>
+          <ul class="muted" style="margin:10px 0 0 18px">
+            <li>Rotina de pele para seu tipo</li>
+            <li>Mapa de cores que te favorecem</li>
+            <li>Olho prático para o dia a dia</li>
+            <li>Lista de produtos essenciais</li>
+          </ul>
+          <div style="margin-top:14px"><a class="btn btn-sm" href="https://wa.me/5537999286198?text=Quero%20detalhes%20do%20Curso%20de%20Automaquiagem%20%F0%9F%92%8B">Quero detalhes no WhatsApp</a></div>
         </div>
-      </Section>
+      </article>
+    </div>
+  </div>
+</section>
 
-      {/* 03 — SERVIÇOS */}
-      <Section id="servicos" bg="#FAF6F1">
-        <SectionTitle
-          k1="Serviços"
-          k2="& Especialidades"
-          sub="Noivas, formandas, debutantes, maquiagem social e penteados — com agenda sob consulta."
-        />
-        <div className="grid gap-6 md:grid-cols-3">
-          {[
-            ["Noivas", "noiva-3.jpg", "Experiência completa para o grande dia."],
-            ["Maquiagem social", "make-3.jpg", "Do clássico ao glow atual."],
-            ["Penteados", "penteado-2.jpg", "Românticos, presos e semi-presos."],
-            ["Formandas & Debutantes", "make-8.jpg", "Brilho na noite especial."],
-            ["Prova de noiva", "noiva-5.jpg", "Teste técnico + ajuste fino."],
-            ["Atendimento em estúdio", "make-1.jpg", "Ambiente confortável e iluminado."],
-          ].map(([title, img, desc]) => (
-            <motion.article
-              key={title}
-              {...fadeUp}
-              className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-gray-200"
-            >
-              <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
-                <Image
-                  src={`/michelle/${img}`}
-                  alt={`${title} - Michelle Fonseca`}
-                  fill
-                  className="object-cover transition-transform duration-500 hover:scale-[1.03]"
-                />
-              </div>
-              <h3
-                className="mt-4 text-lg font-bold"
-                style={{ color: COLORS.graphite }}
-              >
-                {title}
-              </h3>
-              <p className="mt-1 text-sm text-gray-600">{desc}</p>
-            </motion.article>
-          ))}
-        </div>
-        <div className="mt-8 text-center">
-          <ButtonWhatsApp />
-        </div>
-      </Section>
+<!-- 08 LOJA -->
+<section id="loja" class="section">
+  <div class="wrap">
+    <h2 class="title h2">Produtos <span class="tag">favoritos</span></h2>
+    <div class="grid g-3" style="margin-top:16px">
+      <article class="card">
+        <div class="ratio r-4x3"><img src="michelle/produto-1.jpg" alt="Gloss Labial"></div>
+        <div style="padding:14px 16px 18px"><strong>Gloss Labial</strong><p class="muted">Acabamento confortável e brilho na medida.</p>
+        <a class="btn btn-sm" href="https://wa.me/5537999286198?text=Quero%20comprar%20o%20Gloss%20%F0%9F%92%84" style="margin-top:10px;display:inline-flex">Comprar pelo WhatsApp</a></div>
+      </article>
+      <article class="card">
+        <div class="ratio r-4x3"><img src="michelle/produto-2.jpg" alt="Sérum de Blindagem"></div>
+        <div style="padding:14px 16px 18px"><strong>Sérum de Blindagem</strong><p class="muted">Base da pele blindada: fixação e proteção.</p>
+        <a class="btn btn-sm" href="https://wa.me/5537999286198?text=Quero%20comprar%20o%20S%C3%A9rum%20de%20Blindagem%20%F0%9F%92%8B" style="margin-top:10px;display:inline-flex">Comprar pelo WhatsApp</a></div>
+      </article>
+      <article class="card">
+        <div class="ratio r-4x3"><img src="michelle/produto-3.jpg" alt="Esponjas & Acessórios"></div>
+        <div style="padding:14px 16px 18px"><strong>Esponjas & Acessórios</strong><p class="muted">Itens práticos para sua rotina.</p>
+        <a class="btn btn-sm" href="https://wa.me/5537999286198?text=Quero%20comprar%20acess%C3%B3rios%20%F0%9F%92%8B" style="margin-top:10px;display:inline-flex">Comprar pelo WhatsApp</a></div>
+      </article>
+    </div>
+  </div>
+</section>
 
-      {/* 04 — GALERIA NOIVAS */}
-      <Section id="noivas">
-        <SectionTitle
-          k1="Noivas"
-          k2="— Portfólio"
-          sub="Peles impecáveis, olhar definido, romantismo sem exagero."
-        />
-        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-          {noivas.map((src, i) => (
-            <motion.div key={src} {...fadeUp}>
-              <div className="relative aspect-[4/5] overflow-hidden rounded-2xl">
-                <Image
-                  src={src}
-                  alt={`Noiva ${i + 1} — Michelle Fonseca`}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </Section>
+<!-- 09 DIFERENCIAIS -->
+<section id="diferenciais" class="section" style="background:#FAF6F1">
+  <div class="wrap">
+    <h2 class="title h2">Por que escolher a Michelle</h2>
+    <div class="grid g-3" style="margin-top:14px">
+      <div class="card" style="padding:20px"><strong>Pele Blindada</strong><div class="divider"></div><p class="muted">Até 12h de durabilidade com conforto e sem craquelar.</p></div>
+      <div class="card" style="padding:20px"><strong>Colorimetria Aplicada</strong><div class="divider"></div><p class="muted">Harmonia de subtom (frio, quente, neutro) para realçar a beleza natural.</p></div>
+      <div class="card" style="padding:20px"><strong>Acabamento Fotográfico</strong><div class="divider"></div><p class="muted">Texturas e brilhos pensados para luz natural e flash.</p></div>
+    </div>
+  </div>
+</section>
 
-      {/* 05 — GALERIA MAQUIAGEM SOCIAL */}
-      <Section id="maquiagem" bg="#FAF6F1">
-        <SectionTitle
-          k1="Maquiagem Social"
-          k2="— Portfólio"
-          sub="Do leve sofisticado ao glam clássico."
-        />
-        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4">
-          {makes.map((src, i) => (
-            <motion.div key={src} {...fadeUp}>
-              <div className="relative aspect-square overflow-hidden rounded-2xl">
-                <Image
-                  src={src}
-                  alt={`Maquiagem ${i + 1} — Michelle Fonseca`}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </Section>
+<!-- 10 DEPOIMENTOS -->
+<section id="depoimentos" class="section">
+  <div class="wrap">
+    <h2 class="title h2">O que clientes dizem</h2>
+    <div class="grid g-3" style="margin-top:14px">
+      <figure class="card" style="padding:20px"><blockquote>“Minha maquiagem durou a festa inteira intacta. Me senti linda!”</blockquote><figcaption class="muted">Noiva — 2023</figcaption></figure>
+      <figure class="card" style="padding:20px"><blockquote>“Didática ótima no curso. Saí atendendo com mais segurança.”</blockquote><figcaption class="muted">Aluna Profissional</figcaption></figure>
+      <figure class="card" style="padding:20px"><blockquote>“A cor do batom parecia feita pra mim. Colorimetria faz diferença!”</blockquote><figcaption class="muted">Cliente Social</figcaption></figure>
+    </div>
+  </div>
+</section>
 
-      {/* 06 — GALERIA PENTEADOS */}
-      <Section id="penteados">
-        <SectionTitle
-          k1="Penteados"
-          k2="— Portfólio"
-          sub="Texturas, volume e acabamento fotográfico."
-        />
-        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4">
-          {hair.map((src, i) => (
-            <motion.div key={src} {...fadeUp}>
-              <div className="relative aspect-[4/5] overflow-hidden rounded-2xl">
-                <Image
-                  src={src}
-                  alt={`Penteado ${i + 1} — Michelle Fonseca`}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </Section>
+<!-- 11 LOCAL & AGENDA -->
+<section id="agenda" class="section" style="background:linear-gradient(90deg,var(--nude),#fff)">
+  <div class="wrap grid g-2">
+    <div class="card" style="padding:22px">
+      <h3 class="title" style="font-size:22px">Atendimento em Divinópolis — MG</h3>
+      <p class="muted">Agenda sob consulta. Informe data, horário e serviço desejado.</p>
+      <ul class="muted" style="margin-left:18px">
+        <li>Seg a Sex — 09h às 19h</li>
+        <li>Sábados — 08h às 17h</li>
+        <li>Domingos/Feriados — consultar</li>
+      </ul>
+      <a class="btn" href="https://wa.me/5537999286198?text=Oi%20Michelle!%20Quero%20consultar%20disponibilidade%20%F0%9F%91%8B" style="margin-top:12px;display:inline-flex">Consultar disponibilidade</a>
+    </div>
+    <div class="card" style="overflow:hidden">
+      <img src="https://maps.googleapis.com/maps/api/staticmap?center=Divinopolis,MG&zoom=12&size=800x500&scale=2&key=" alt="Mapa de Divinópolis — MG" />
+    </div>
+  </div>
+</section>
 
-      {/* 07 — CURSOS */}
-      <Section id="cursos" bg={`linear-gradient(90deg, #ffffff, ${COLORS.nude})`}>
-        <SectionTitle
-          k1="Cursos Profissionais"
-          k2="& Automaquiagem"
-          sub="Aprenda técnica de pele blindada, acabamento de olhos e colorimetria aplicada."
-        />
-        <div className="grid gap-6 md:grid-cols-2">
-          {[
-            {
-              title: "Curso Profissional",
-              bullets: [
-                "Pele blindada: preparação, selagem e durabilidade",
-                "Colorimetria: leitura de subtom e correções",
-                "Olhos: do esfumado clássico ao fox-eye",
-                "Portfólio em aula + fotografia",
-              ],
-              img: "/michelle/make-5.jpg",
-            },
-            {
-              title: "Curso de Automaquiagem",
-              bullets: [
-                "Rotina de pele para seu tipo",
-                "Mapa de cores que te favorecem",
-                "Olho prático para o dia a dia",
-                "Lista de produtos essenciais",
-              ],
-              img: "/michelle/make-2.jpg",
-            },
-          ].map((c) => (
-            <motion.article
-              key={c.title}
-              {...fadeUp}
-              className="grid items-center gap-4 rounded-2xl bg-white p-5 shadow-sm ring-1 ring-gray-200 md:grid-cols-[1.05fr_1fr]"
-            >
-              <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
-                <Image src={c.img} alt={c.title} fill className="object-cover" />
-              </div>
-              <div>
-                <h3
-                  className="text-xl font-bold"
-                  style={{ color: COLORS.graphite }}
-                >
-                  {c.title}
-                </h3>
-                <ul className="mt-3 list-inside list-disc text-sm text-gray-700">
-                  {c.bullets.map((b) => (
-                    <li key={b}>{b}</li>
-                  ))}
-                </ul>
-                <div className="mt-4">
-                  <ButtonWhatsApp size="sm">Quero detalhes no WhatsApp</ButtonWhatsApp>
-                </div>
-              </div>
-            </motion.article>
-          ))}
-        </div>
-      </Section>
+<!-- 12 CTA FINAL + FAQ -->
+<section id="cta-faq" class="section" style="background:var(--graph);color:#fff">
+  <div class="wrap grid g-2">
+    <div>
+      <h2 class="title h2" style="color:#fff">Pronta para se ver mais linda?</h2>
+      <p class="muted" style="color:#fff;opacity:.9">Chame no WhatsApp e vamos alinhar seu atendimento ou curso ideal.</p>
+      <a class="btn" href="https://wa.me/5537999286198?text=Quero%20reservar%20um%20hor%C3%A1rio%20%F0%9F%92%8B" style="margin-top:10px;display:inline-flex">Reservar meu horário</a>
+    </div>
+    <div class="card" style="padding:20px;background:#fff;color:var(--graph)">
+      <h3 class="title" style="font-size:20px;margin:0 0 6px">Dúvidas rápidas</h3>
+      <dl class="muted">
+        <dt><strong>Quanto tempo dura a maquiagem?</strong></dt>
+        <dd>Pele blindada planejada para longa duração (evento inteiro).</dd>
+        <dt style="margin-top:10px"><strong>Atende em domicílio?</strong></dt>
+        <dd>Sim, sob consulta e taxa conforme deslocamento.</dd>
+        <dt style="margin-top:10px"><strong>Como reservo a data?</strong></dt>
+        <dd>Envie sua data pelo WhatsApp. Confirmo valores e sinal.</dd>
+        <dt style="margin-top:10px"><strong>Tem pacote para noivas?</strong></dt>
+        <dd>Prova + make do dia + penteado. Montamos conforme necessidade.</dd>
+      </dl>
+    </div>
+  </div>
+  <footer class="wrap" style="border-top:1px solid #ffffff30;margin-top:24px;padding-top:16px;display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between" aria-label="Rodapé">
+    <span class="footer">© <span id="yr"></span> Michelle Fonseca — Makeup</span>
+    <nav class="footer" style="display:flex;gap:12px">
+      <a href="#servicos" class="footer">Serviços</a>
+      <a href="#cursos" class="footer">Cursos</a>
+      <a href="#loja" class="footer">Loja</a>
+      <a href="https://wa.me/5537999286198" class="footer">WhatsApp</a>
+    </nav>
+  </footer>
+</section>
 
-      {/* 08 — LOJA / PRODUTOS EM DESTAQUE */}
-      <Section id="loja">
-        <SectionTitle
-          k1="Produtos"
-          k2="favoritos"
-          sub="Itens que uso em atendimento e recomendo."
-        />
-        <div className="grid gap-6 md:grid-cols-3">
-          {[
-            ["Gloss Labial", "produto-1.jpg"],
-            ["Sérum de Blindagem", "produto-2.jpg"],
-            ["Esponjas & Acessórios", "produto-3.jpg"],
-          ].map(([title, img]) => (
-            <motion.article
-              key={title}
-              {...fadeUp}
-              className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-gray-200"
-            >
-              <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
-                <Image
-                  src={`/michelle/${img}`}
-                  alt={`${title} — loja`}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <h3 className="mt-3 font-semibold" style={{ color: COLORS.graphite }}>
-                {title}
-              </h3>
-              <p className="mt-1 text-sm text-gray-600">
-                Disponível sob consulta direta.
-              </p>
-              <div className="mt-3">
-                <ButtonWhatsApp size="sm">Quero comprar pelo WhatsApp</ButtonWhatsApp>
-              </div>
-            </motion.article>
-          ))}
-        </div>
-      </Section>
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lb" role="dialog" aria-modal="true" aria-label="Visualização de imagem">
+  <button class="x" aria-label="Fechar" onclick="lb(false)">✕</button>
+  <img id="lbimg" alt="">
+</div>
 
-      {/* 09 — DIFERENCIAIS (Pele Blindada & Colorimetria) */}
-      <Section id="diferenciais" bg="#FAF6F1">
-        <SectionTitle
-          k1="Por que escolher a Michelle"
-          k2=""
-          sub="Técnica + cuidado: pele blindada, leitura de cor e acabamento pensado para fotografia e vida real."
-        />
-        <div className="grid gap-6 md:grid-cols-3">
-          {[
-            [
-              "Pele Blindada",
-              "Até 12h de durabilidade com acabamento confortável e sem craquelar.",
-            ],
-            [
-              "Colorimetria Aplicada",
-              "Harmonia de subtom (frio, quente, neutro) para realçar sua beleza natural.",
-            ],
-            [
-              "Acabamento Fotográfico",
-              "Texturas e brilhos na medida para luz natural e flash.",
-            ],
-          ].map(([t, d]) => (
-            <motion.div
-              key={t as string}
-              {...fadeUp}
-              className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-200"
-            >
-              <h3 className="text-lg font-bold" style={{ color: COLORS.graphite }}>
-                {t}
-              </h3>
-              <p className="mt-2 text-sm text-gray-700">{d}</p>
-            </motion.div>
-          ))}
-        </div>
-      </Section>
+<script>
+  // ano no rodapé
+  document.getElementById('yr').textContent = new Date().getFullYear();
 
-      {/* 10 — DEPOIMENTOS */}
-      <Section id="depoimentos">
-        <SectionTitle
-          k1="O que clientes dizem"
-          sub="Prova social real de quem já viveu a experiência."
-        />
-        <div className="grid gap-6 md:grid-cols-3">
-          {[
-            [
-              "“Minha maquiagem durou a festa inteira intacta. Me senti linda!”",
-              "Noiva — 2023",
-            ],
-            [
-              "“Didática ótima no curso. Saí atendendo com mais segurança.”",
-              "Aluna Profissional",
-            ],
-            [
-              "“A cor do batom parecia feita pra mim. Colorimetria faz diferença!”",
-              "Cliente Social",
-            ],
-          ].map(([quote, who]) => (
-            <motion.figure
-              key={quote as string}
-              {...fadeUp}
-              className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-200"
-            >
-              <blockquote className="text-[15px] leading-relaxed text-gray-800">
-                {quote}
-              </blockquote>
-              <figcaption className="mt-3 text-sm text-gray-500">{who}</figcaption>
-            </motion.figure>
-          ))}
-        </div>
-      </Section>
+  // Lightbox simples para todas as galerias
+  const lbEl = document.getElementById('lb');
+  const lbImg = document.getElementById('lbimg');
+  document.querySelectorAll('#g-noivas img, #g-make img, #g-hair img').forEach(img=>{
+    img.style.cursor='zoom-in';
+    img.addEventListener('click', ()=>{ lbImg.src = img.src; lbImg.alt = img.alt; lb(true); });
+  });
+  function lb(open){ lbEl.classList[open?'add':'remove']('open'); }
+  lbEl.addEventListener('click', (e)=>{ if(e.target===lbEl) lb(false); });
+  window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') lb(false); });
 
-      {/* 11 — LOCAL & AGENDA */}
-      <Section id="agenda" bg={`linear-gradient(90deg, ${COLORS.nude}, #ffffff)`}>
-        <SectionTitle
-          align="left"
-          k1="Atendimento em"
-          k2="Divinópolis — MG"
-          sub="Agenda sob consulta. Informe data, horário e serviço desejado."
-        />
-        <div className="grid gap-6 md:grid-cols-2">
-          <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
-            <h3 className="font-bold" style={{ color: COLORS.graphite }}>
-              Horários
-            </h3>
-            <ul className="mt-2 space-y-1 text-sm text-gray-700">
-              <li>Seg a Sex — 09h às 19h</li>
-              <li>Sábados — 08h às 17h</li>
-              <li>Domingos/Feriados — consultar</li>
-            </ul>
-            <div className="mt-5">
-              <ButtonWhatsApp>Consultar disponibilidade</ButtonWhatsApp>
-            </div>
-          </div>
-
-          <div className="rounded-2xl bg-white p-2 shadow-sm ring-1 ring-gray-200">
-            {/* mapa estático (substituir por embed real se quiser) */}
-            <Image
-              src="https://maps.googleapis.com/maps/api/staticmap?center=Divinopolis,MG&zoom=12&size=800x500&scale=2&key=" // opcional: colocar sua key
-              alt="Mapa de Divinópolis — MG"
-              width={800}
-              height={500}
-              className="w-full rounded-xl"
-            />
-          </div>
-        </div>
-      </Section>
-
-      {/* 12 — CTA FINAL + FAQ compacto */}
-      <Section id="cta-faq" bg={COLORS.graphite}>
-        <div className="grid gap-10 md:grid-cols-2">
-          <div>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-white">
-              Pronta para se ver mais linda?
-            </h2>
-            <p className="mt-3 text-white/80">
-              Me chama no WhatsApp e vamos alinhar seu atendimento ou curso ideal.
-            </p>
-            <div className="mt-6">
-              <ButtonWhatsApp>
-                Reservar meu horário no WhatsApp
-              </ButtonWhatsApp>
-            </div>
-          </div>
-
-          {/* FAQ */}
-          <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
-            <h3 className="text-lg font-bold" style={{ color: COLORS.graphite }}>
-              Dúvidas rápidas
-            </h3>
-            <dl className="mt-3 space-y-3 text-sm text-gray-800">
-              <div>
-                <dt className="font-semibold">Quanto tempo dura a maquiagem?</dt>
-                <dd>Pele blindada planejada para longa duração (evento inteiro).</dd>
-              </div>
-              <div>
-                <dt className="font-semibold">Atende em domicílio?</dt>
-                <dd>Sim, sob consulta e taxa adicional conforme deslocamento.</dd>
-              </div>
-              <div>
-                <dt className="font-semibold">Como reservo a data?</dt>
-                <dd>Envie sua data pelo WhatsApp. Confirmo valores e sinal.</dd>
-              </div>
-              <div>
-                <dt className="font-semibold">Tem pacote para noivas?</dt>
-                <dd>Prova + make do dia + penteado. Montamos conforme necessidade.</dd>
-              </div>
-            </dl>
-          </div>
-        </div>
-
-        {/* footer minimalista */}
-        <footer className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-white/20 pt-6 text-center text-sm text-white/70 md:flex-row">
-          <span>© {new Date().getFullYear()} Michelle Fonseca — Makeup</span>
-          <nav className="flex gap-4">
-            <a href="#servicos" className="hover:text-white">
-              Serviços
-            </a>
-            <a href="#cursos" className="hover:text-white">
-              Cursos
-            </a>
-            <a href="#loja" className="hover:text-white">
-              Loja
-            </a>
-            <a href={WAPP_URL} className="hover:text-white">
-              WhatsApp
-            </a>
-          </nav>
-        </footer>
-      </Section>
-
-      {/* JSON-LD básico (SEO local) */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BeautySalon",
-            name: "Michelle Fonseca Makeup",
-            address: { "@type": "PostalAddress", addressLocality: "Divinópolis", addressRegion: "MG", addressCountry: "BR" },
-            areaServed: "Divinópolis e região",
-            sameAs: ["https://instagram.com/makeupmichellefonseca"],
-            telephone: WAPP_NUMBER,
-          }),
-        }}
-      />
-    </main>
-  );
-}
+  // JSON-LD (SEO Local)
+  const ld = {
+    "@context":"https://schema.org",
+    "@type":"BeautySalon",
+    "name":"Michelle Fonseca Makeup",
+    "address":{"@type":"PostalAddress","addressLocality":"Divinópolis","addressRegion":"MG","addressCountry":"BR"},
+    "areaServed":"Divinópolis e região",
+    "telephone":"+55 37 99928-6198",
+    "sameAs":["https://instagram.com/makeupmichellefonseca"]
+  };
+  const s=document.createElement('script'); s.type='application/ld+json'; s.textContent=JSON.stringify(ld); document.head.appendChild(s);
+</script>
+</body>
+</html>
