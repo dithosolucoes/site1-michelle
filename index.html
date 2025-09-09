@@ -1,445 +1,610 @@
-<!doctype html>
-<html lang="pt-BR">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Michelle Fonseca — Maquiadora | Pele Blindada & Colorimetria</title>
-<meta name="description" content="Maquiadora em Divinópolis-MG. Especialista em Pele Blindada & Colorimetria. Noivas, Penteados, Maquiagem Social, Cursos e Loja." />
-<meta name="theme-color" content="#7A2435" />
-<meta name="robots" content="index,follow" />
+// app/page.tsx
+"use client";
 
-<!-- Fonts -->
-<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+import Image from "next/image";
+import Link from "next/link";
+import { motion } from "framer-motion";
 
-<!-- Favicon -->
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='90'%3E💄%3C/text%3E%3C/svg%3E">
+// ====== CONFIG BÁSICA ======
+const WAPP_NUMBER = "+553799999999"; // <-- troque aqui
+const WAPP_MSG = encodeURIComponent("Oi Michelle! Quero um horário/mais informações 🙌");
+const WAPP_URL = `https://wa.me/${WAPP_NUMBER}?text=${WAPP_MSG}`;
 
-<style>
-/* ===================== DESIGN SYSTEM ===================== */
-:root{
-  /* Paleta oficial */
-  --bege:#E9DACC;      /* Nude/Bege */
-  --dourado:#D1AD61;   /* Dourado Suave */
-  --vinho:#7A2435;     /* Vinho */
-  --grafite:#2C2C2C;   /* Preto Grafite */
-  --branco:#FFFFFF;
+const COLORS = {
+  nude: "#EAD9CB",
+  gold: "#C8A562",
+  wine: "#7F2436",
+  graphite: "#2F2F2F",
+  white: "#FFFFFF",
+};
 
-  /* Tipografia */
-  --t-display: clamp(28px, 5vw, 48px);
-  --t-h2: clamp(22px, 3.4vw, 36px);
-  --t-h3: clamp(18px, 2.6vw, 24px);
-  --t-body: 16px;
-
-  /* Espaçamento */
-  --space-1: 8px;
-  --space-2: 12px;
-  --space-3: 16px;
-  --space-4: 24px;
-  --space-5: 36px;
-  --space-6: 56px;
-
-  /* Outros */
-  --radius-lg: 16px;
-  --radius-sm: 10px;
-  --shadow-md: 0 10px 30px rgba(0,0,0,.08);
+function ButtonWhatsApp({
+  children = "Fale comigo no WhatsApp",
+  size = "lg",
+  className = "",
+}: {
+  children?: React.ReactNode;
+  size?: "sm" | "lg";
+  className?: string;
+}) {
+  const sizes =
+    size === "lg"
+      ? "px-6 py-4 text-base md:text-lg"
+      : "px-4 py-2 text-sm md:text-base";
+  return (
+    <Link
+      href={WAPP_URL}
+      aria-label="Falar com Michelle no WhatsApp"
+      className={`inline-flex items-center justify-center rounded-xl font-semibold text-white shadow-sm transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2`}
+      style={{ backgroundColor: COLORS.wine }}
+    >
+      <span className={`${sizes} ${className}`}>{children}</span>
+    </Link>
+  );
 }
 
-/* Reset básico e base mobile-first */
-*{box-sizing:border-box}
-html,body{margin:0;padding:0;background:var(--branco);color:var(--grafite);font: 400 var(--t-body)/1.55 Inter,system-ui,-apple-system,Segoe UI,Roboto,Poppins,Arial,sans-serif}
-img{max-width:100%;display:block}
-.container{max-width:1120px;margin-inline:auto;padding:0 var(--space-3)}
-.skip-link{position:absolute;left:-999px;top:-999px}
-.skip-link:focus{left:16px;top:16px;background:#000;color:#fff;padding:8px 12px;border-radius:8px;z-index:999}
-
-/* Topbar */
-.topbar{position:sticky;top:0;background:rgba(255,255,255,.92);backdrop-filter:saturate(160%) blur(8px);z-index:20;border-bottom:1px solid #eee}
-.topbar .container{display:flex;align-items:center;justify-content:space-between;height:64px}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
-.brand-logo{font-size:24px}
-.brand-name{font-family:Poppins,Inter,sans-serif;font-weight:700}
-
-/* Navegação responsiva */
-.nav-toggle{background:none;border:0;font-size:28px;display:inline-flex}
-.menu{position:fixed;inset:auto 0 0 0;top:64px;background:#fff;display:none;flex-direction:column;gap:8px;padding:14px;border-top:1px solid #eee;box-shadow:var(--shadow-md)}
-.menu a{padding:12px;border-radius:10px;text-decoration:none;color:var(--grafite);font-weight:600}
-.menu a:hover{background:#fafafa}
-.menu.open{display:flex}
-/* >=768: menu desktop */
-@media (min-width:768px){
-  .nav-toggle{display:none}
-  .menu{position:static;display:flex;flex-direction:row;gap:18px;padding:0;border:0;box-shadow:none}
-  .menu a{padding:8px 10px}
+function Section({
+  id,
+  children,
+  className = "",
+  bg = "transparent",
+  ariaLabel,
+}: {
+  id: string;
+  children: React.ReactNode;
+  className?: string;
+  bg?: string;
+  ariaLabel?: string;
+}) {
+  return (
+    <section
+      id={id}
+      aria-label={ariaLabel || id}
+      className={`py-14 md:py-20 ${className}`}
+      style={{ background: bg }}
+    >
+      <div className="mx-auto w-full max-w-6xl px-5">{children}</div>
+    </section>
+  );
 }
 
-/* Botões */
-.btn{display:inline-flex;align-items:center;justify-content:center;padding:14px 22px;border-radius:12px;border:2px solid transparent;font-weight:700;text-decoration:none;cursor:pointer;transition:.2s}
-.btn--primary{background:var(--vinho);color:#fff}
-.btn--secondary{background:var(--bege);color:var(--grafite)}
-.btn--ghost{background:transparent;border-color:var(--grafite);color:var(--grafite)}
-.btn--sm{padding:10px 14px}
-.btn--block{width:100%}
-
-/* HERO */
-.hero{padding:var(--space-5) 0 var(--space-4)}
-.hero__grid{display:grid;grid-template-columns:1fr;gap:var(--space-4);align-items:center}
-.hero h1{font:700 var(--t-display)/1.1 Poppins,Inter,sans-serif;margin:0}
-.hero p.lead{color:#606060;margin:.8em 0 1.2em}
-.hero__img img{border-radius:18px;box-shadow:var(--shadow-md)}
-@media (min-width:920px){
-  .hero__grid{grid-template-columns:1.15fr .85fr}
+function SectionTitle({
+  k1,
+  k2,
+  sub,
+  align = "center",
+}: {
+  k1: string;
+  k2?: string;
+  sub?: string;
+  align?: "left" | "center";
+}) {
+  return (
+    <header
+      className={`mb-10 md:mb-14 ${align === "center" ? "text-center" : ""}`}
+    >
+      <h2
+        className={`text-3xl md:text-4xl font-extrabold tracking-tight text-[${COLORS.graphite}]`}
+        style={{ color: COLORS.graphite }}
+      >
+        {k1} {k2 && <span style={{ color: COLORS.wine }}>{k2}</span>}
+      </h2>
+      {sub && (
+        <p
+          className="mt-3 text-base md:text-lg text-gray-600"
+          style={{ color: "#565656" }}
+        >
+          {sub}
+        </p>
+      )}
+    </header>
+  );
 }
 
-/* Sections */
-.section{padding:var(--space-5) 0}
-.section--alt{background:#fafafa}
-.section__header{margin-bottom:var(--space-3)}
-.section__header h2{font:700 var(--t-h2)/1.15 Poppins,Inter,sans-serif;margin:.2em 0}
-.section__header p{color:#666}
+// ====== VARIAÇÕES DE MOTION ======
+const fadeUp = {
+  initial: { opacity: 0, y: 16 },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.45 } },
+};
 
-/* Cards */
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
-.card{background:#fff;border:1px solid #eee;border-radius:var(--radius-lg);padding:18px;box-shadow:var(--shadow-md)}
-.card--cta{border-color:var(--vinho)}
+// ====== 12 SEÇÕES ======
+export default function Page() {
+  const noivas = [1, 2, 3, 4, 5].map((i) => `/michelle/noiva-${i}.jpg`);
+  const makes = [1, 2, 3, 4, 5, 6, 7, 8].map((i) => `/michelle/make-${i}.jpg`);
+  const hair = [1, 2, 3, 4, 5, 6, 7, 8].map(
+    (i) => `/michelle/penteado-${i}.jpg`
+  );
+  const produtos = [1, 2, 3].map((i) => `/michelle/produto-${i}.jpg`);
 
-/* Chips/Filtros */
-.filters{display:flex;gap:10px;flex-wrap:wrap}
-.tag{border:1px solid #ddd;background:#fff;color:var(--grafite);border-radius:999px;padding:8px 12px;cursor:pointer;font-weight:700}
-.tag.is-active,.tag:focus{outline:0;border-color:var(--vinho);color:#fff;background:var(--vinho)}
+  return (
+    <main className="min-h-screen" style={{ backgroundColor: COLORS.white }}>
+      {/* 01 — HERO */}
+      <Section id="inicio" bg={`linear-gradient(90deg, ${COLORS.nude}, #F3E9DF)`}>
+        <div className="grid items-center gap-8 md:grid-cols-2">
+          <motion.div {...fadeUp}>
+            <Image
+              src="/michelle/hero.jpg"
+              width={900}
+              height={900}
+              alt="Michelle Fonseca - Especialista em Pele Blindada"
+              className="w-full rounded-3xl object-cover shadow-lg"
+              priority
+            />
+          </motion.div>
 
-/* Galeria responsiva (mobile first) */
-.gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-@media (min-width:600px){ .gallery{grid-template-columns:repeat(3,1fr)} }
-@media (min-width:980px){ .gallery{grid-template-columns:repeat(4,1fr)} }
-.gallery figure{margin:0;position:relative;border-radius:16px;overflow:hidden;border:1px solid #eee;background:#fff}
-.gallery img{width:100%;height:230px;object-fit:cover;display:block;transition:transform .28s ease}
-@media (min-width:480px){ .gallery img{height:260px} }
-.gallery figure:hover img{transform:scale(1.04)}
-.gallery figcaption{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(180deg,transparent,rgba(0,0,0,.65));color:#fff;padding:10px;font-size:14px}
+          <motion.div {...fadeUp} transition={{ delay: 0.1 }}>
+            <h1
+              className="text-4xl md:text-6xl font-extrabold leading-tight"
+              style={{ color: COLORS.graphite }}
+            >
+              Michelle Fonseca
+            </h1>
+            <p
+              className="mt-4 text-xl md:text-2xl font-medium"
+              style={{ color: COLORS.graphite }}
+            >
+              Especialista em <span style={{ color: COLORS.wine }}>Pele Blindada</span> &{" "}
+              <span style={{ color: COLORS.wine }}>Colorimetria</span>
+            </p>
+            <p className="mt-3 text-base md:text-lg text-gray-700">
+              Transformando beleza em confiança — todos os dias.
+            </p>
 
-/* Lightbox acessível */
-.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.9);display:flex;align-items:center;justify-content:center;gap:20px;padding:24px;opacity:0;pointer-events:none;transition:.18s;z-index:50}
-.lightbox.open{opacity:1;pointer-events:auto}
-.lightbox img{max-width:min(94vw,1100px);max-height:80vh;border-radius:12px}
-.lightbox__close{position:absolute;top:14px;right:18px;background:#fff;border:0;border-radius:999px;width:44px;height:44px;font-size:26px;cursor:pointer}
-.lightbox__cap{color:#fff;text-align:center;max-width:900px;margin-top:10px}
+            <div className="mt-6 flex flex-wrap items-center gap-4">
+              <ButtonWhatsApp />
+              <a
+                href="#servicos"
+                className="text-sm md:text-base underline underline-offset-4"
+                style={{ color: COLORS.graphite }}
+              >
+                Ver serviços
+              </a>
+            </div>
 
-/* Footer */
-.footer{padding:28px 0;border-top:1px solid #eee;background:#fff}
-.footer__grid{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
-
-/* Utilidades */
-.center{text-align:center}
-.mt-16{margin-top:16px}
-.mt-24{margin-top:24px}
-hr.sep{border:0;border-top:1px solid #eee;margin:var(--space-4) 0}
-.badge{display:inline-block;background:var(--dourado);color:#000;padding:4px 8px;border-radius:999px;font-weight:700;font-size:12px}
-
-/* Acessibilidade: foco visível */
-:focus-visible{outline:3px solid var(--dourado);outline-offset:2px}
-</style>
-</head>
-<body>
-<a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
-
-<header class="topbar">
-  <div class="container">
-    <a href="#" class="brand" aria-label="Página inicial">
-      <span class="brand-logo" aria-hidden="true">💄</span>
-      <span class="brand-name">Michelle Fonseca</span>
-    </a>
-    <nav aria-label="Primária">
-      <button class="nav-toggle" aria-expanded="false" aria-controls="menu">☰</button>
-      <ul id="menu" class="menu">
-        <li><a href="#servicos">Serviços</a></li>
-        <li><a href="#noivas">Noivas</a></li>
-        <li><a href="#penteados">Penteados</a></li>
-        <li><a href="#maquiagem">Maquiagem</a></li>
-        <li><a href="#cursos">Cursos</a></li>
-        <li><a href="#loja">Loja</a></li>
-        <li><a class="btn btn--sm btn--primary" href="#" data-whatsapp>WhatsApp</a></li>
-      </ul>
-    </nav>
-  </div>
-</header>
-
-<main id="conteudo">
-  <!-- HERO -->
-  <section class="hero">
-    <div class="container hero__grid">
-      <div class="hero__copy">
-        <h1>Especialista em <span style="color:var(--vinho)">Pele Blindada</span> & <span style="color:var(--vinho)">Colorimetria</span></h1>
-        <p class="lead">Beleza com técnica, durabilidade e confiança em cada detalhe.</p>
-        <div class="actions">
-          <a class="btn btn--primary" href="#" data-whatsapp>Fale comigo no WhatsApp</a>
-          <a class="btn btn--ghost" href="#noivas">Ver trabalhos com Noivas</a>
+            {/* badges rápidos */}
+            <ul className="mt-6 flex flex-wrap gap-4 text-sm text-gray-700">
+              <li className="rounded-full bg-white/70 px-3 py-2 shadow-sm backdrop-blur">
+                +4 anos de experiência
+              </li>
+              <li className="rounded-full bg-white/70 px-3 py-2 shadow-sm backdrop-blur">
+                Divinópolis — MG
+              </li>
+              <li className="rounded-full bg-white/70 px-3 py-2 shadow-sm backdrop-blur">
+                Cursos Profissionais & Automaquiagem
+              </li>
+            </ul>
+          </motion.div>
         </div>
-      </div>
-      <figure class="hero__img" aria-label="Imagem destaque">
-        <img src="assets/noivas/8E65C0B2-9E6F-486F-908F-7223EACE5D66.jpeg" alt="Noiva com tiara prateada e pele iluminada" loading="lazy">
-      </figure>
-    </div>
-  </section>
+      </Section>
 
-  <!-- SOBRE + DIFERENCIAIS -->
-  <section id="servicos" class="section section--alt">
-    <div class="container">
-      <header class="section__header">
-        <h2>Sobre a Michelle</h2>
-        <p>Maquiadora profissional e educadora em Divinópolis-MG. <span class="badge">Pele Blindada</span> • <span class="badge">Colorimetria</span></p>
-      </header>
-
-      <div class="cards">
-        <article class="card">
-          <h3>Pele Blindada</h3>
-          <p>Textura confortável, acabamento impecável e durabilidade para o grande dia.</p>
-        </article>
-        <article class="card">
-          <h3>Colorimetria</h3>
-          <p>Adequação precisa de subtom, correções e realce do seu traço natural.</p>
-        </article>
-        <article class="card">
-          <h3>Atendimento de Noivas</h3>
-          <p>Prova, cronograma e coordenação com penteado para uma experiência sem estresse.</p>
-        </article>
-        <article class="card card--cta">
-          <h3>Agende agora</h3>
-          <p>Tire dúvidas, valores e disponibilidade.</p>
-          <a class="btn btn--primary btn--block" href="#" data-whatsapp>Chamar no WhatsApp</a>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- NOIVAS -->
-  <section id="noivas" class="section">
-    <div class="container">
-      <header class="section__header">
-        <h2>Noivas 🤍</h2>
-        <p>Seleção de noivas com foco em pele blindada, luminosidade e resistência para longas celebrações.</p>
-        <div class="filters" aria-label="Filtros de tom de pele">
-          <button class="tag is-active" data-filter="all" aria-pressed="true">Todas</button>
-          <button class="tag" data-filter="claro">Peles claras</button>
-          <button class="tag" data-filter="medio">Peles médias</button>
-          <button class="tag" data-filter="escuro">Peles escuras</button>
+      {/* 02 — AUTORIDADE / PROVAS RÁPIDAS */}
+      <Section id="autoridade">
+        <SectionTitle
+          k1="Beleza que dura"
+          k2="a festa inteira"
+          sub="Técnica de alta durabilidade (pele blindada) e colorimetria para realçar tons de pele."
+        />
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+          {[
+            ["+860", "Atendimentos & makes"],
+            ["+200", "Alunas formadas"],
+            ["4.9/5", "Avaliações de clientes"],
+            ["Prova d’água", "Fixação & resistência"],
+          ].map(([k, v]) => (
+            <motion.div
+              key={k}
+              {...fadeUp}
+              className="rounded-2xl border border-gray-200 bg-white p-6 text-center shadow-sm"
+            >
+              <div
+                className="text-3xl font-extrabold"
+                style={{ color: COLORS.wine }}
+              >
+                {k}
+              </div>
+              <div className="mt-1 text-sm text-gray-600">{v}</div>
+            </motion.div>
+          ))}
         </div>
-      </header>
-      <div class="gallery" id="gallery-noivas" aria-live="polite" aria-busy="false"></div>
-      <div class="center mt-24"><a class="btn btn--secondary" href="#" data-whatsapp>Quero orçamento para Noiva</a></div>
-    </div>
-  </section>
+      </Section>
 
-  <!-- PENTEADOS -->
-  <section id="penteados" class="section section--alt">
-    <div class="container">
-      <header class="section__header">
-        <h2>Penteados ✨</h2>
-        <p>Coques, semi-presos e rabos com acabamento polido para eventos e noivas.</p>
-      </header>
-      <div class="gallery" id="gallery-penteados" aria-live="polite" aria-busy="false"></div>
-    </div>
-  </section>
+      {/* 03 — SERVIÇOS */}
+      <Section id="servicos" bg="#FAF6F1">
+        <SectionTitle
+          k1="Serviços"
+          k2="& Especialidades"
+          sub="Noivas, formandas, debutantes, maquiagem social e penteados — com agenda sob consulta."
+        />
+        <div className="grid gap-6 md:grid-cols-3">
+          {[
+            ["Noivas", "noiva-3.jpg", "Experiência completa para o grande dia."],
+            ["Maquiagem social", "make-3.jpg", "Do clássico ao glow atual."],
+            ["Penteados", "penteado-2.jpg", "Românticos, presos e semi-presos."],
+            ["Formandas & Debutantes", "make-8.jpg", "Brilho na noite especial."],
+            ["Prova de noiva", "noiva-5.jpg", "Teste técnico + ajuste fino."],
+            ["Atendimento em estúdio", "make-1.jpg", "Ambiente confortável e iluminado."],
+          ].map(([title, img, desc]) => (
+            <motion.article
+              key={title}
+              {...fadeUp}
+              className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-gray-200"
+            >
+              <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
+                <Image
+                  src={`/michelle/${img}`}
+                  alt={`${title} - Michelle Fonseca`}
+                  fill
+                  className="object-cover transition-transform duration-500 hover:scale-[1.03]"
+                />
+              </div>
+              <h3
+                className="mt-4 text-lg font-bold"
+                style={{ color: COLORS.graphite }}
+              >
+                {title}
+              </h3>
+              <p className="mt-1 text-sm text-gray-600">{desc}</p>
+            </motion.article>
+          ))}
+        </div>
+        <div className="mt-8 text-center">
+          <ButtonWhatsApp />
+        </div>
+      </Section>
 
-  <!-- MAQUIAGEM SOCIAL -->
-  <section id="maquiagem" class="section">
-    <div class="container">
-      <header class="section__header">
-        <h2>Maquiagem Social 💄</h2>
-        <p>Beleza sob medida para formaturas, eventos e ensaios — com pele resistente e confortável.</p>
-      </header>
-      <div class="gallery" id="gallery-makeup" aria-live="polite" aria-busy="false"></div>
-    </div>
-  </section>
+      {/* 04 — GALERIA NOIVAS */}
+      <Section id="noivas">
+        <SectionTitle
+          k1="Noivas"
+          k2="— Portfólio"
+          sub="Peles impecáveis, olhar definido, romantismo sem exagero."
+        />
+        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+          {noivas.map((src, i) => (
+            <motion.div key={src} {...fadeUp}>
+              <div className="relative aspect-[4/5] overflow-hidden rounded-2xl">
+                <Image
+                  src={src}
+                  alt={`Noiva ${i + 1} — Michelle Fonseca`}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </Section>
 
-  <!-- CURSOS -->
-  <section id="cursos" class="section section--alt">
-    <div class="container">
-      <header class="section__header">
-        <h2>Cursos</h2>
-        <p>Profissional • Automaquiagem • Certificação • Prática real.</p>
-      </header>
-      <div class="cards">
-        <article class="card">
-          <h3>Curso Profissional</h3>
-          <p>Formação completa para atuação no mercado com conteúdo atualizado e acompanhamento individual.</p>
-          <a class="btn btn--secondary" href="#" data-whatsapp>Quero informações</a>
-        </article>
-        <article class="card">
-          <h3>Automaquiagem</h3>
-          <p>Técnicas simples e eficazes para valorizar sua beleza com segurança no dia a dia.</p>
-          <a class="btn btn--secondary" href="#" data-whatsapp>Próxima turma</a>
-        </article>
-      </div>
-    </div>
-  </section>
+      {/* 05 — GALERIA MAQUIAGEM SOCIAL */}
+      <Section id="maquiagem" bg="#FAF6F1">
+        <SectionTitle
+          k1="Maquiagem Social"
+          k2="— Portfólio"
+          sub="Do leve sofisticado ao glam clássico."
+        />
+        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4">
+          {makes.map((src, i) => (
+            <motion.div key={src} {...fadeUp}>
+              <div className="relative aspect-square overflow-hidden rounded-2xl">
+                <Image
+                  src={src}
+                  alt={`Maquiagem ${i + 1} — Michelle Fonseca`}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </Section>
 
-  <!-- LOJA -->
-  <section id="loja" class="section">
-    <div class="container">
-      <header class="section__header">
-        <h2>mfmakeupstore 🛍️</h2>
-        <p>Produtos que uso em clientes e ensino às alunas — performance e qualidade.</p>
-      </header>
-      <div class="gallery" id="gallery-shop" aria-live="polite" aria-busy="false"></div>
-      <div class="center mt-24"><a class="btn btn--primary" href="#" data-whatsapp>Quero comprar</a></div>
-    </div>
-  </section>
+      {/* 06 — GALERIA PENTEADOS */}
+      <Section id="penteados">
+        <SectionTitle
+          k1="Penteados"
+          k2="— Portfólio"
+          sub="Texturas, volume e acabamento fotográfico."
+        />
+        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4">
+          {hair.map((src, i) => (
+            <motion.div key={src} {...fadeUp}>
+              <div className="relative aspect-[4/5] overflow-hidden rounded-2xl">
+                <Image
+                  src={src}
+                  alt={`Penteado ${i + 1} — Michelle Fonseca`}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </Section>
 
-  <hr class="sep" />
+      {/* 07 — CURSOS */}
+      <Section id="cursos" bg={`linear-gradient(90deg, #ffffff, ${COLORS.nude})`}>
+        <SectionTitle
+          k1="Cursos Profissionais"
+          k2="& Automaquiagem"
+          sub="Aprenda técnica de pele blindada, acabamento de olhos e colorimetria aplicada."
+        />
+        <div className="grid gap-6 md:grid-cols-2">
+          {[
+            {
+              title: "Curso Profissional",
+              bullets: [
+                "Pele blindada: preparação, selagem e durabilidade",
+                "Colorimetria: leitura de subtom e correções",
+                "Olhos: do esfumado clássico ao fox-eye",
+                "Portfólio em aula + fotografia",
+              ],
+              img: "/michelle/make-5.jpg",
+            },
+            {
+              title: "Curso de Automaquiagem",
+              bullets: [
+                "Rotina de pele para seu tipo",
+                "Mapa de cores que te favorecem",
+                "Olho prático para o dia a dia",
+                "Lista de produtos essenciais",
+              ],
+              img: "/michelle/make-2.jpg",
+            },
+          ].map((c) => (
+            <motion.article
+              key={c.title}
+              {...fadeUp}
+              className="grid items-center gap-4 rounded-2xl bg-white p-5 shadow-sm ring-1 ring-gray-200 md:grid-cols-[1.05fr_1fr]"
+            >
+              <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
+                <Image src={c.img} alt={c.title} fill className="object-cover" />
+              </div>
+              <div>
+                <h3
+                  className="text-xl font-bold"
+                  style={{ color: COLORS.graphite }}
+                >
+                  {c.title}
+                </h3>
+                <ul className="mt-3 list-inside list-disc text-sm text-gray-700">
+                  {c.bullets.map((b) => (
+                    <li key={b}>{b}</li>
+                  ))}
+                </ul>
+                <div className="mt-4">
+                  <ButtonWhatsApp size="sm">Quero detalhes no WhatsApp</ButtonWhatsApp>
+                </div>
+              </div>
+            </motion.article>
+          ))}
+        </div>
+      </Section>
 
-  <!-- CHAMADA FINAL -->
-  <section class="section">
-    <div class="container center">
-      <h2 class="section__title" style="font:700 var(--t-h2)/1.2 Poppins,Inter,sans-serif;margin:.2em 0">Pronta para sua transformação?</h2>
-      <p style="color:#666;max-width:720px;margin:0 auto var(--space-3)">Seja para o seu grande dia, para aprender a se maquiar ou para iniciar sua carreira na beleza, eu te acompanho em cada passo.</p>
-      <a class="btn btn--primary" href="#" data-whatsapp>Clique e fale comigo no WhatsApp</a>
-    </div>
-  </section>
-</main>
+      {/* 08 — LOJA / PRODUTOS EM DESTAQUE */}
+      <Section id="loja">
+        <SectionTitle
+          k1="Produtos"
+          k2="favoritos"
+          sub="Itens que uso em atendimento e recomendo."
+        />
+        <div className="grid gap-6 md:grid-cols-3">
+          {[
+            ["Gloss Labial", "produto-1.jpg"],
+            ["Sérum de Blindagem", "produto-2.jpg"],
+            ["Esponjas & Acessórios", "produto-3.jpg"],
+          ].map(([title, img]) => (
+            <motion.article
+              key={title}
+              {...fadeUp}
+              className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-gray-200"
+            >
+              <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
+                <Image
+                  src={`/michelle/${img}`}
+                  alt={`${title} — loja`}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <h3 className="mt-3 font-semibold" style={{ color: COLORS.graphite }}>
+                {title}
+              </h3>
+              <p className="mt-1 text-sm text-gray-600">
+                Disponível sob consulta direta.
+              </p>
+              <div className="mt-3">
+                <ButtonWhatsApp size="sm">Quero comprar pelo WhatsApp</ButtonWhatsApp>
+              </div>
+            </motion.article>
+          ))}
+        </div>
+      </Section>
 
-<!-- LIGHTBOX -->
-<div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-hidden="true">
-  <button class="lightbox__close" aria-label="Fechar">×</button>
-  <img id="lightbox-img" alt="">
-  <p id="lightbox-cap" class="lightbox__cap"></p>
-</div>
+      {/* 09 — DIFERENCIAIS (Pele Blindada & Colorimetria) */}
+      <Section id="diferenciais" bg="#FAF6F1">
+        <SectionTitle
+          k1="Por que escolher a Michelle"
+          k2=""
+          sub="Técnica + cuidado: pele blindada, leitura de cor e acabamento pensado para fotografia e vida real."
+        />
+        <div className="grid gap-6 md:grid-cols-3">
+          {[
+            [
+              "Pele Blindada",
+              "Até 12h de durabilidade com acabamento confortável e sem craquelar.",
+            ],
+            [
+              "Colorimetria Aplicada",
+              "Harmonia de subtom (frio, quente, neutro) para realçar sua beleza natural.",
+            ],
+            [
+              "Acabamento Fotográfico",
+              "Texturas e brilhos na medida para luz natural e flash.",
+            ],
+          ].map(([t, d]) => (
+            <motion.div
+              key={t as string}
+              {...fadeUp}
+              className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-200"
+            >
+              <h3 className="text-lg font-bold" style={{ color: COLORS.graphite }}>
+                {t}
+              </h3>
+              <p className="mt-2 text-sm text-gray-700">{d}</p>
+            </motion.div>
+          ))}
+        </div>
+      </Section>
 
-<footer class="footer">
-  <div class="container footer__grid">
-    <p><strong>Michelle Fonseca</strong> — Especialista em Pele Blindada & Colorimetria • Divinópolis - MG</p>
-    <a class="btn btn--primary" href="#" data-whatsapp>Agende no WhatsApp</a>
-  </div>
-</footer>
+      {/* 10 — DEPOIMENTOS */}
+      <Section id="depoimentos">
+        <SectionTitle
+          k1="O que clientes dizem"
+          sub="Prova social real de quem já viveu a experiência."
+        />
+        <div className="grid gap-6 md:grid-cols-3">
+          {[
+            [
+              "“Minha maquiagem durou a festa inteira intacta. Me senti linda!”",
+              "Noiva — 2023",
+            ],
+            [
+              "“Didática ótima no curso. Saí atendendo com mais segurança.”",
+              "Aluna Profissional",
+            ],
+            [
+              "“A cor do batom parecia feita pra mim. Colorimetria faz diferença!”",
+              "Cliente Social",
+            ],
+          ].map(([quote, who]) => (
+            <motion.figure
+              key={quote as string}
+              {...fadeUp}
+              className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-200"
+            >
+              <blockquote className="text-[15px] leading-relaxed text-gray-800">
+                {quote}
+              </blockquote>
+              <figcaption className="mt-3 text-sm text-gray-500">{who}</figcaption>
+            </motion.figure>
+          ))}
+        </div>
+      </Section>
 
-<!-- JSON-LD LocalBusiness -->
-<script type="application/ld+json">
-{
-  "@context":"https://schema.org",
-  "@type":"BeautySalon",
-  "name":"Michelle Fonseca - Maquiadora",
-  "description":"Especialista em Pele Blindada & Colorimetria. Noivas, penteados, maquiagem social e cursos.",
-  "areaServed":"Divinópolis, MG",
-  "image":"assets/noivas/8E65C0B2-9E6F-486F-908F-7223EACE5D66.jpeg",
-  "sameAs":["https://www.instagram.com/makeupmichellefonseca/"],
-  "address":{"@type":"PostalAddress","addressLocality":"Divinópolis","addressRegion":"MG","addressCountry":"BR"},
-  "priceRange":"$$"
+      {/* 11 — LOCAL & AGENDA */}
+      <Section id="agenda" bg={`linear-gradient(90deg, ${COLORS.nude}, #ffffff)`}>
+        <SectionTitle
+          align="left"
+          k1="Atendimento em"
+          k2="Divinópolis — MG"
+          sub="Agenda sob consulta. Informe data, horário e serviço desejado."
+        />
+        <div className="grid gap-6 md:grid-cols-2">
+          <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
+            <h3 className="font-bold" style={{ color: COLORS.graphite }}>
+              Horários
+            </h3>
+            <ul className="mt-2 space-y-1 text-sm text-gray-700">
+              <li>Seg a Sex — 09h às 19h</li>
+              <li>Sábados — 08h às 17h</li>
+              <li>Domingos/Feriados — consultar</li>
+            </ul>
+            <div className="mt-5">
+              <ButtonWhatsApp>Consultar disponibilidade</ButtonWhatsApp>
+            </div>
+          </div>
+
+          <div className="rounded-2xl bg-white p-2 shadow-sm ring-1 ring-gray-200">
+            {/* mapa estático (substituir por embed real se quiser) */}
+            <Image
+              src="https://maps.googleapis.com/maps/api/staticmap?center=Divinopolis,MG&zoom=12&size=800x500&scale=2&key=" // opcional: colocar sua key
+              alt="Mapa de Divinópolis — MG"
+              width={800}
+              height={500}
+              className="w-full rounded-xl"
+            />
+          </div>
+        </div>
+      </Section>
+
+      {/* 12 — CTA FINAL + FAQ compacto */}
+      <Section id="cta-faq" bg={COLORS.graphite}>
+        <div className="grid gap-10 md:grid-cols-2">
+          <div>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-white">
+              Pronta para se ver mais linda?
+            </h2>
+            <p className="mt-3 text-white/80">
+              Me chama no WhatsApp e vamos alinhar seu atendimento ou curso ideal.
+            </p>
+            <div className="mt-6">
+              <ButtonWhatsApp>
+                Reservar meu horário no WhatsApp
+              </ButtonWhatsApp>
+            </div>
+          </div>
+
+          {/* FAQ */}
+          <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
+            <h3 className="text-lg font-bold" style={{ color: COLORS.graphite }}>
+              Dúvidas rápidas
+            </h3>
+            <dl className="mt-3 space-y-3 text-sm text-gray-800">
+              <div>
+                <dt className="font-semibold">Quanto tempo dura a maquiagem?</dt>
+                <dd>Pele blindada planejada para longa duração (evento inteiro).</dd>
+              </div>
+              <div>
+                <dt className="font-semibold">Atende em domicílio?</dt>
+                <dd>Sim, sob consulta e taxa adicional conforme deslocamento.</dd>
+              </div>
+              <div>
+                <dt className="font-semibold">Como reservo a data?</dt>
+                <dd>Envie sua data pelo WhatsApp. Confirmo valores e sinal.</dd>
+              </div>
+              <div>
+                <dt className="font-semibold">Tem pacote para noivas?</dt>
+                <dd>Prova + make do dia + penteado. Montamos conforme necessidade.</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+
+        {/* footer minimalista */}
+        <footer className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-white/20 pt-6 text-center text-sm text-white/70 md:flex-row">
+          <span>© {new Date().getFullYear()} Michelle Fonseca — Makeup</span>
+          <nav className="flex gap-4">
+            <a href="#servicos" className="hover:text-white">
+              Serviços
+            </a>
+            <a href="#cursos" className="hover:text-white">
+              Cursos
+            </a>
+            <a href="#loja" className="hover:text-white">
+              Loja
+            </a>
+            <a href={WAPP_URL} className="hover:text-white">
+              WhatsApp
+            </a>
+          </nav>
+        </footer>
+      </Section>
+
+      {/* JSON-LD básico (SEO local) */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BeautySalon",
+            name: "Michelle Fonseca Makeup",
+            address: { "@type": "PostalAddress", addressLocality: "Divinópolis", addressRegion: "MG", addressCountry: "BR" },
+            areaServed: "Divinópolis e região",
+            sameAs: ["https://instagram.com/makeupmichellefonseca"],
+            telephone: WAPP_NUMBER,
+          }),
+        }}
+      />
+    </main>
+  );
 }
-</script>
-
-<script>
-/* ===================== CONFIG ===================== */
-const WHATSAPP_NUMBER = "5537999999999"; // <-- troque pelo seu número
-const WHATSAPP_BASE = `https://wa.me/${WHATSAPP_NUMBER}?text=Oi%20Michelle!%20Vim%20pelo%20site%20e%20quero%20saber%20sobre%20`;
-
-// aplica link de WhatsApp
-document.querySelectorAll("[data-whatsapp]").forEach(a=>{
-  a.href = WHATSAPP_BASE + encodeURIComponent(a.textContent.trim());
-});
-
-/* ===================== ARRAYS DE IMAGENS ===================== */
-/* NOIVAS (5) — com tom de pele para filtros */
-const NOIVAS_DATA = [
-  { src:"assets/noivas/8E65C0B2-9E6F-486F-908F-7223EACE5D66.jpeg", alt:"Noiva com tiara prateada, pele glow suave e batom nude rosado.", cap:"Noiva — tiara prateada, glow suave.", tone:"claro" },
-  { src:"assets/noivas/4ABFF454-ACBB-49E1-9BC5-9B2EC551C25C.jpeg", alt:"Noiva de pele clara com ondas largas e tiara.", cap:"Ondas largas + pele blindada.", tone:"claro" },
-  { src:"assets/noivas/07FBAF43-50AD-4E03-A603-8088CB94F5A3.jpeg", alt:"Noiva com véu e bouquet rosa; olho cintilante e pele polida.", cap:"Véu clássico + bouquet.", tone:"claro" },
-  { src:"assets/noivas/449CB8BC-61AC-4D6C-BB7B-8BC97934F94C.jpeg", alt:"Noiva pele média com véu; esfumado marrom e pele aveludada.", cap:"Esfumado marrom aveludado.", tone:"medio" },
-  { src:"assets/noivas/786FCA0B-C0D6-4936-9113-D22E9D8A24DD.jpeg", alt:"Noiva pele escura com coroa; pele radiante e delineado suave.", cap:"Pele radiante + delineado.", tone:"escuro" }
-];
-
-/* PENTEADOS (5) */
-const PENTEADOS_DATA = [
-  { src:"assets/penteados/FA731DD1-F980-4CDB-BB02-B82784184546.jpeg", alt:"Rabo alto com ondas marcadas e volume no topo.", cap:"Rabo alto com ondas e acabamento polido." },
-  { src:"assets/penteados/24FDD6DB-5957-458A-B574-888B408B4928.jpeg", alt:"Rabo alto volumoso com cachos definidos.", cap:"Rabo alto volumoso — brilho e definição." },
-  { src:"assets/penteados/11C6B2CF-1A1A-4358-B173-164501F5731A.jpeg", alt:"Semi preso clássico com volume posterior.", cap:"Semi preso clássico — elegância atemporal." },
-  { src:"assets/penteados/83926A98-AC6B-48E8-A0ED-B135025C6F47.jpeg", alt:"Coque baixo com trança lateral para cabelos ruivos.", cap:"Coque baixo com trança lateral." },
-  { src:"assets/penteados/9B07F73A-266C-4E91-8FC1-300C05FF2F79.jpeg", alt:"Semi preso cacheado com trança delicada.", cap:"Semi preso cacheado com trança." }
-];
-
-/* MAQUIAGEM SOCIAL (6 primeiras do segundo bloco) */
-const MAKEUP_DATA = [
-  { src:"assets/maquiagem/3DC8957C-15B4-4DD8-96AD-ACDA4844F4D5.jpeg", alt:"Make social pele média com delineado e gloss, uniforme cheerleader.", cap:"Make social — glow saudável." },
-  { src:"assets/maquiagem/E834F9AA-9263-4077-B96C-E4F8CEA7A432.jpeg", alt:"Make clássica com batom vermelho e delineado gatinho.", cap:"Clássica — batom vermelho + delineado." },
-  { src:"assets/maquiagem/16FF1DC9-D57C-47ED-A1B0-8D0B1939F916.jpeg", alt:"Esfumado marrom rosé com pele polida e brilho suave.", cap:"Esfumado marrom rosé." },
-  { src:"assets/maquiagem/FEF0A97C-B94A-401E-987D-52C37AA22AA7.jpeg", alt:"Pele jovem com glow e esfumado suave; foco em iluminação.", cap:"Glow fresh + olhar iluminado." },
-  { src:"assets/maquiagem/7B610D7C-08AB-4531-B795-51F5D451EF69.jpeg", alt:"Pele negra iluminada, delineado interno e gloss nude.", cap:"Pele negra — brilho e definição." },
-  { src:"assets/maquiagem/F2057CDB-0547-48A1-9D1F-F671FEA96D8D.jpeg", alt:"Pele clara com ondas e delineado discreto.", cap:"Elegância natural com delineado suave." }
-];
-
-/* LOJA (3 últimas) */
-const SHOP_DATA = [
-  { src:"assets/loja/E47256CF-78F3-49EA-A670-384E35406054.jpeg", alt:"Gloss labial rosé cintilante — close do produto.", cap:"Gloss labial rosé cintilante." },
-  { src:"assets/loja/6480B50B-63BD-4E69-A55F-638A7734F6DF.jpeg", alt:"Sérum/Óleo FAND Impact — blindagem e longa durabilidade.", cap:"FAND Impact — super fixação e durabilidade." },
-  { src:"assets/loja/0114CEB1-118D-481A-8F03-4EB8FD0DE012.jpeg", alt:"Foto de produto em fundo neutro — acessórios de maquiagem.", cap:"Linha de produtos mfmakeupstore." }
-];
-
-/* ===================== RENDER ===================== */
-function renderGallery(el, items){
-  const frag = document.createDocumentFragment();
-  for(const it of items){
-    const fig = document.createElement('figure');
-    if(it.tone) fig.dataset.tone = it.tone;
-    const img = document.createElement('img');
-    img.src = it.src; img.loading = "lazy"; img.alt = it.alt || "";
-    img.decoding = "async";
-    img.addEventListener('click', ()=>openLightbox(it.src, it.cap || it.alt));
-    const cap = document.createElement('figcaption');
-    cap.textContent = it.cap || "";
-    fig.append(img, cap);
-    frag.append(fig);
-  }
-  el.innerHTML = "";
-  el.append(frag);
-}
-
-/* Monta galerias */
-const elNoivas = document.getElementById('gallery-noivas');
-renderGallery(elNoivas, NOIVAS_DATA);
-
-const elPent = document.getElementById('gallery-penteados');
-renderGallery(elPent, PENTEADOS_DATA);
-
-const elMake = document.getElementById('gallery-makeup');
-renderGallery(elMake, MAKEUP_DATA);
-
-const elShop = document.getElementById('gallery-shop');
-renderGallery(elShop, SHOP_DATA);
-
-/* Filtros (Noivas) */
-document.querySelectorAll('#noivas .tag').forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    document.querySelectorAll('#noivas .tag').forEach(b=>b.classList.remove('is-active'));
-    btn.classList.add('is-active');
-    const f = btn.dataset.filter;
-    const filtered = f==="all" ? NOIVAS_DATA : NOIVAS_DATA.filter(n=>n.tone===f);
-    renderGallery(elNoivas, filtered);
-  });
-});
-
-/* Lightbox */
-const lb = document.getElementById('lightbox');
-const lbImg = document.getElementById('lightbox-img');
-const lbCap = document.getElementById('lightbox-cap');
-function openLightbox(src, cap){
-  lbImg.src = src; lbCap.textContent = cap || "";
-  lb.setAttribute('aria-hidden','false');
-  lb.classList.add('open');
-}
-document.querySelector('.lightbox__close').addEventListener('click', closeLightbox);
-lb.addEventListener('click', (e)=>{ if(e.target===lb) closeLightbox(); });
-function closeLightbox(){
-  lb.classList.remove('open');
-  lb.setAttribute('aria-hidden','true');
-  lbImg.src = ""; lbCap.textContent = "";
-}
-
-/* Menu mobile */
-const toggle = document.querySelector('.nav-toggle');
-const menu = document.getElementById('menu');
-toggle?.addEventListener('click', ()=>{
-  const open = menu.classList.toggle('open');
-  toggle.setAttribute('aria-expanded', String(open));
-});
-</script>
-</body>
-</html>
